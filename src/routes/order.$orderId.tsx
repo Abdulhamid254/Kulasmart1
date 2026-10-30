@@ -56,7 +56,7 @@ function OrderPage() {
 
         <div className="mt-10">
           <p className="font-display text-2xl font-bold text-primary">
-            {done ? "Enjoy your meal! 🍽️" : `${STAGES[stage].label}… ~${minsLeft} min`}
+            {done ? "Enjoy your meal! 🍽️" : `${STAGES[stage]!.label}… ~${minsLeft} min`}
           </p>
           <div className="relative mt-8 h-12">
             <div className="absolute top-1/2 h-2 w-full -translate-y-1/2 rounded-full bg-muted" />

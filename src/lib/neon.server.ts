@@ -37,7 +37,7 @@ async function neonFetch(body: unknown, headers: Record<string, string>, signal?
       method: "POST",
       headers: { ...base, ...headers },
       body: JSON.stringify(body),
-      signal,
+      signal: signal ?? null,
     });
     const text = await res.text();
     let json: any;
