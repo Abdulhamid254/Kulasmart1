@@ -1,8 +1,8 @@
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/neon";
 
 function gatewayHeaders(): Record<string, string> {
-  const LOVABLE_API_KEY = process.env.LOVABLE_API_KEY;
-  const NEON_API_KEY = process.env.NEON_API_KEY;
+  const LOVABLE_API_KEY = process.env['LOVABLE_API_KEY'];
+  const NEON_API_KEY = process.env['NEON_API_KEY'];
   if (!LOVABLE_API_KEY || !NEON_API_KEY) {
     throw new Error("Missing LOVABLE_API_KEY or NEON_API_KEY");
   }
