@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Data lives in the user's Neon DB (tables `fs_meals`, `fs_orders`), accessed only via `src/lib/neon.server.ts` gateway helpers from server functions in `src/lib/food.functions.ts`; jsonb params are sent as JSON strings with `::jsonb` casts — arrays would otherwise be sent as Postgres arrays.
+- AI calls go through `@lovable.dev/ai-gateway` in `src/lib/ai.server.ts` (JSON-object chat completions); meals are cached per ingredient and recipe/restaurants generated lazily on first view to save cost.
