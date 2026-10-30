@@ -75,10 +75,10 @@ export const getMealDetails = createServerFn({ method: "GET" })
       fail(e, "Couldn't load the recipe right now. Please try again.");
     }
     try {
-      await neonExecute("update fs_meals set recipe = $2, restaurants = $3 where id = $1", [
+      await neonExecute("update fs_meals set recipe = $2::jsonb, restaurants = $3::jsonb where id = $1", [
         data.id,
-        out.recipe,
-        out.restaurants,
+        JSON.stringify(out.recipe),
+        JSON.stringify(out.restaurants),
       ]);
     } catch (e) {
       console.error(e);
@@ -104,8 +104,8 @@ export const placeOrder = createServerFn({ method: "POST" })
     try {
       const total = Math.round((data.restaurant.price + 2.99) * 100) / 100;
       const r = await neonExecute(
-        "insert into fs_orders (meal_id, meal_name, restaurant, total) values ($1,$2,$3,$4) returning id",
-        [data.mealId, data.mealName, data.restaurant, total],
+        "insert into fs_orders (meal_id, meal_name, restaurant, total) values ($1,$2,$3::jsonb,$4) returning id",
+        [data.mealId, data.mealName, JSON.stringify(data.restaurant), total],
       );
       return { id: String(r.rows[0]?.id) };
     } catch (e) {
