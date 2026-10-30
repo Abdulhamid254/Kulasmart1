@@ -10,13 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CartRouteImport } from './routes/cart'
 import { Route as OrdersRouteImport } from './routes/orders'
 import { Route as MealMealIdRouteImport } from './routes/meal.$mealId'
 import { Route as OrderOrderIdRouteImport } from './routes/order.$orderId'
+import { Route as ApiMealImageMealIdRouteImport } from './routes/api/meal-image.$mealId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OrdersRoute = OrdersRouteImport.update({
@@ -34,39 +41,71 @@ const OrderOrderIdRoute = OrderOrderIdRouteImport.update({
   path: '/order/$orderId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiMealImageMealIdRoute = ApiMealImageMealIdRouteImport.update({
+  id: '/api/meal-image/$mealId',
+  path: '/api/meal-image/$mealId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
   '/orders': typeof OrdersRoute
   '/meal/$mealId': typeof MealMealIdRoute
   '/order/$orderId': typeof OrderOrderIdRoute
+  '/api/meal-image/$mealId': typeof ApiMealImageMealIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
   '/orders': typeof OrdersRoute
   '/meal/$mealId': typeof MealMealIdRoute
   '/order/$orderId': typeof OrderOrderIdRoute
+  '/api/meal-image/$mealId': typeof ApiMealImageMealIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
   '/orders': typeof OrdersRoute
   '/meal/$mealId': typeof MealMealIdRoute
   '/order/$orderId': typeof OrderOrderIdRoute
+  '/api/meal-image/$mealId': typeof ApiMealImageMealIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/orders' | '/meal/$mealId' | '/order/$orderId'
+  fullPaths:
+    | '/'
+    | '/cart'
+    | '/orders'
+    | '/meal/$mealId'
+    | '/order/$orderId'
+    | '/api/meal-image/$mealId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/orders' | '/meal/$mealId' | '/order/$orderId'
-  id: '__root__' | '/' | '/orders' | '/meal/$mealId' | '/order/$orderId'
+  to:
+    | '/'
+    | '/cart'
+    | '/orders'
+    | '/meal/$mealId'
+    | '/order/$orderId'
+    | '/api/meal-image/$mealId'
+  id:
+    | '__root__'
+    | '/'
+    | '/cart'
+    | '/orders'
+    | '/meal/$mealId'
+    | '/order/$orderId'
+    | '/api/meal-image/$mealId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CartRoute: typeof CartRoute
   OrdersRoute: typeof OrdersRoute
   MealMealIdRoute: typeof MealMealIdRoute
   OrderOrderIdRoute: typeof OrderOrderIdRoute
+  ApiMealImageMealIdRoute: typeof ApiMealImageMealIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -76,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/orders': {
@@ -99,14 +145,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OrderOrderIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/meal-image/$mealId': {
+      id: '/api/meal-image/$mealId'
+      path: '/api/meal-image/$mealId'
+      fullPath: '/api/meal-image/$mealId'
+      preLoaderRoute: typeof ApiMealImageMealIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CartRoute: CartRoute,
   OrdersRoute: OrdersRoute,
   MealMealIdRoute: MealMealIdRoute,
   OrderOrderIdRoute: OrderOrderIdRoute,
+  ApiMealImageMealIdRoute: ApiMealImageMealIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
