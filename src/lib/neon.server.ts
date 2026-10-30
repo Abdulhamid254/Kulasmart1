@@ -15,7 +15,7 @@ function gatewayHeaders(): Record<string, string> {
 
 type Statement = { query: string; params?: unknown[] };
 export type NeonResult = {
-  rows: Record<string, unknown>[];
+  rows: any[];
   fields: { name: string; dataTypeID: number }[];
   rowCount: number | null;
   command: string;

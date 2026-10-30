@@ -42,7 +42,7 @@ export const suggestMeals = createServerFn({ method: "POST" })
           params: [ingredient, m.name, m.description, m.cook_time, m.difficulty, m.cuisine],
         })),
       );
-      return res.results.map((r) => r.rows[0]);
+      return res.results.map((r) => r.rows[0]!);
     } catch (e) {
       fail(e, neonUserError(e));
     }
@@ -53,7 +53,7 @@ export const getMealDetails = createServerFn({ method: "GET" })
   .handler(async ({ data }): Promise<MealDetails | null> => {
     const { neonQuery, neonExecute, neonUserError } = await import("./neon.server");
     const { askJson } = await import("./ai.server");
-    let row: Record<string, unknown> | undefined;
+    let row: any;
     try {
       const r = await neonQuery(
         "select id, ingredient, name, description, cook_time, difficulty, cuisine, recipe, restaurants from fs_meals where id = $1",
@@ -107,7 +107,7 @@ export const placeOrder = createServerFn({ method: "POST" })
         "insert into fs_orders (meal_id, meal_name, restaurant, total) values ($1,$2,$3,$4) returning id",
         [data.mealId, data.mealName, data.restaurant, total],
       );
-      return { id: String(r.rows[0].id) };
+      return { id: String(r.rows[0]?.id) };
     } catch (e) {
       fail(e, neonUserError(e));
     }
