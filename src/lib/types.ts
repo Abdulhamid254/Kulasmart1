@@ -25,10 +25,12 @@ export type Meal = {
 
 export type MealDetails = Meal & { recipe: Recipe; restaurants: Restaurant[] };
 
+export type OrderItem = { mealId: string; mealName: string; restaurant: Restaurant; qty: number };
+
 export type Order = {
   id: string;
-  meal_name: string;
-  restaurant: Restaurant;
+  summary: string;
+  items: OrderItem[];
   total: number;
   created_at: string;
 };

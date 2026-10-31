@@ -3,14 +3,16 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Bike, Check, CheckCircle2, ChefHat, Home, Loader2, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FoodLoader } from "@/components/FoodLoader";
+import { MealImage } from "@/components/MealImage";
 import { getOrder } from "@/lib/food.functions";
 
 export const Route = createFileRoute("/order/$orderId")({
   head: () => ({
     meta: [
-      { title: "Your order is on the way — Pantry Pal" },
+      { title: "Your order is on the way — KulaSmart" },
       { name: "description", content: "Track your meal delivery live." },
-      { property: "og:title", content: "Your order is on the way — Pantry Pal" },
+      { property: "og:title", content: "Your order is on the way — KulaSmart" },
       { property: "og:description", content: "Track your meal delivery live." },
     ],
   }),
@@ -36,14 +38,16 @@ function OrderPage() {
     return () => clearInterval(t);
   }, []);
 
-  if (q.isPending) return <div className="grid place-items-center py-32"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
+  if (q.isPending) return <div className="py-32"><FoodLoader label="Loading your order…" /></div>;
   if (!q.data) return <p className="py-32 text-center text-destructive">Order not found.</p>;
 
   const o = q.data;
   const progress = elapsed / TOTAL_SECONDS;
   const stage = Math.min(STAGES.length - 1, Math.floor(progress * (STAGES.length - 1) + 0.0001));
   const done = elapsed >= TOTAL_SECONDS;
-  const minsLeft = Math.max(0, Math.ceil(o.restaurant.delivery_minutes * (1 - progress)));
+  const eta = Math.max(20, ...o.items.map((i) => i.restaurant.delivery_minutes));
+  const minsLeft = Math.max(0, Math.ceil(eta * (1 - progress)));
+  const restaurants = [...new Set(o.items.map((i) => i.restaurant.name))];
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10 pb-20">
@@ -51,8 +55,16 @@ function OrderPage() {
         <CheckCircle2 className="mx-auto h-14 w-14 text-accent" />
         <h1 className="mt-3 text-3xl font-extrabold">Order placed successfully!</h1>
         <p className="mt-2 text-muted-foreground">
-          <b className="text-foreground">{o.meal_name}</b> from <b className="text-foreground">{o.restaurant.name}</b> · ${o.total.toFixed(2)}
+          With <b className="text-foreground">{restaurants.join(", ")}</b> · ${o.total.toFixed(2)}
         </p>
+        <div className="mt-5 flex flex-wrap justify-center gap-3">
+          {o.items.map((i) => (
+            <div key={i.mealId + i.restaurant.name} className="flex items-center gap-2 rounded-full bg-secondary py-1 pl-1 pr-3 text-sm text-secondary-foreground">
+              <MealImage mealId={i.mealId} alt={i.mealName} className="h-8 w-8 rounded-full" />
+              {i.qty > 1 ? `${i.qty}× ` : ""}{i.mealName}
+            </div>
+          ))}
+        </div>
 
         <div className="mt-10">
           <p className="font-display text-2xl font-bold text-primary">
