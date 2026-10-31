@@ -11,7 +11,7 @@ import { MealImage } from "@/components/MealImage";
 
 export const Route = createFileRoute("/")({
   validateSearch: (s: Record<string, unknown>): { q?: string } =>
-    typeof s.q === "string" && s.q.trim() ? { q: s.q.slice(0, 40) } : {},
+    typeof s['q'] === "string" && s['q'].trim() ? { q: s['q'].slice(0, 40) } : {},
   head: () => ({
     meta: [
       { title: "KulaSmart — What can I cook with this?" },
