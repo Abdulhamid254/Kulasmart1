@@ -120,3 +120,8 @@
 @keyframes ride { 0% { left: 0%; } 100% { left: calc(100% - 2.5rem); } }
 @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 @utility animate-bob { animation: bob 0.5s ease-in-out infinite; }
+
+@keyframes steam { 0% { transform: translateY(0) scaleY(0.6); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(-18px) scaleY(1.2); opacity: 0; } }
+@utility animate-steam { animation: steam 1.4s ease-out infinite; }
+@keyframes hop { 0%,60%,100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-10px) rotate(-8deg); } }
+@utility animate-hop { animation: hop 1.2s ease-in-out infinite; }

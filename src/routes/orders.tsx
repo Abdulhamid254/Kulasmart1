@@ -6,9 +6,9 @@ import { listOrders } from "@/lib/food.functions";
 export const Route = createFileRoute("/orders")({
   head: () => ({
     meta: [
-      { title: "My orders — Pantry Pal" },
+      { title: "My orders — KulaSmart" },
       { name: "description", content: "Your recent meal orders." },
-      { property: "og:title", content: "My orders — Pantry Pal" },
+      { property: "og:title", content: "My orders — KulaSmart" },
       { property: "og:description", content: "Your recent meal orders." },
     ],
   }),

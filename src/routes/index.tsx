@@ -10,9 +10,9 @@ import { suggestMeals } from "@/lib/food.functions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pantry Pal — What can I cook with this?" },
+      { title: "KulaSmart — What can I cook with this?" },
       { name: "description", content: "Enter any ingredient and get five meal ideas, full recipes and nearby restaurants to order from." },
-      { property: "og:title", content: "Pantry Pal — What can I cook with this?" },
+      { property: "og:title", content: "KulaSmart — What can I cook with this?" },
       { property: "og:description", content: "Enter any ingredient and get five meal ideas, recipes and restaurants." },
     ],
   }),

@@ -15,9 +15,9 @@ const mealQuery = (id: string) =>
 export const Route = createFileRoute("/meal/$mealId")({
   head: () => ({
     meta: [
-      { title: "Recipe & nearby restaurants — Pantry Pal" },
+      { title: "Recipe & nearby restaurants — KulaSmart" },
       { name: "description", content: "Cook it yourself with a step-by-step recipe, or order it from a nearby restaurant." },
-      { property: "og:title", content: "Recipe & nearby restaurants — Pantry Pal" },
+      { property: "og:title", content: "Recipe & nearby restaurants — KulaSmart" },
       { property: "og:description", content: "Cook it yourself or order it nearby." },
     ],
   }),
