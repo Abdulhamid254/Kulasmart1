@@ -68,7 +68,7 @@ export const getMealDetails = createServerFn({ method: "GET" })
     let out: { recipe: Recipe; restaurants: Restaurant[] };
     try {
       out = await askJson(
-        'You are a chef and a local food guide. Give a home recipe and 4 fictional nearby restaurants that serve this dish. Shape: {"recipe":{"servings":number,"ingredients":string[] (with quantities),"steps":string[]},"restaurants":[{"name":string,"rating":number 3.5-5,"distance_km":number 0.3-8,"price":number in USD,"delivery_minutes":number 15-50,"address":string}]}',
+        'You are a chef and a local food guide. Give a home recipe and 4 made-up nearby restaurants that serve this dish (realistic names, no "fictional" labels). Shape: {"recipe":{"servings":number,"ingredients":string[] (with quantities),"steps":string[]},"restaurants":[{"name":string,"rating":number 3.5-5,"distance_km":number 0.3-8,"price":number in USD,"delivery_minutes":number 15-50,"address":string}]}',
         `Dish: ${row.name} (${row.cuisine}). ${row.description}`,
       );
     } catch (e) {
