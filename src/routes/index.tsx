@@ -1,7 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight, Clock, Flame, Loader2, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,8 @@ import { FoodLoader } from "@/components/FoodLoader";
 import { MealImage } from "@/components/MealImage";
 
 export const Route = createFileRoute("/")({
+  validateSearch: (s: Record<string, unknown>): { q?: string } =>
+    typeof s.q === "string" && s.q.trim() ? { q: s.q.slice(0, 40) } : {},
   head: () => ({
     meta: [
       { title: "KulaSmart — What can I cook with this?" },
@@ -24,14 +26,23 @@ export const Route = createFileRoute("/")({
 const QUICK = ["Chicken", "Rice", "Beef", "Potato", "Salmon", "Eggs"];
 
 function Index() {
-  const [ingredient, setIngredient] = useState("");
+  const { q } = Route.useSearch();
+  const navigate = useNavigate({ from: "/" });
+  const [ingredient, setIngredient] = useState(q ?? "");
+  useEffect(() => setIngredient(q ?? ""), [q]);
   const suggest = useServerFn(suggestMeals);
-  const m = useMutation({ mutationFn: (i: string) => suggest({ data: { ingredient: i } }) });
+  const m = useQuery({
+    queryKey: ["suggest", q?.trim().toLowerCase()],
+    queryFn: () => suggest({ data: { ingredient: q!.trim() } }),
+    enabled: !!q && q.trim().length >= 2,
+    staleTime: Infinity,
+    retry: false,
+  });
 
   const run = (i: string) => {
     if (i.trim().length < 2) return;
     setIngredient(i);
-    m.mutate(i.trim());
+    navigate({ search: { q: i.trim() } });
   };
 
   return (
