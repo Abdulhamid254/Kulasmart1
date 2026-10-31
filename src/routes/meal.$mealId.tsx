@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getMealDetails, placeOrder } from "@/lib/food.functions";
 import type { Restaurant } from "@/lib/types";
 
-export const mealQuery = (id: string) =>
+const mealQuery = (id: string) =>
   queryOptions({ queryKey: ["meal", id], queryFn: () => getMealDetails({ data: { id } }), staleTime: Infinity });
 
 export const Route = createFileRoute("/meal/$mealId")({
