@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import type { Meal, MealDetails, Order, Recipe, Restaurant } from "./types";
+import type { Meal, MealDetails, Order, OrderItem, Recipe, Restaurant } from "./types";
 
 function fail(err: unknown, fallback: string): never {
   console.error(err);
