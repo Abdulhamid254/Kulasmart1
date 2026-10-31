@@ -69,8 +69,8 @@ function Index() {
               className="border-0 bg-transparent text-base shadow-none focus-visible:ring-0"
             />
           </div>
-          <Button type="submit" disabled={m.isPending} className="rounded-full px-6">
-            {m.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Suggest"}
+          <Button type="submit" disabled={m.isFetching} className="rounded-full px-6">
+            {m.isFetching ? <Loader2 className="h-4 w-4 animate-spin" /> : "Suggest"}
           </Button>
         </form>
         <div className="mt-4 flex flex-wrap justify-center gap-2">
@@ -86,7 +86,7 @@ function Index() {
         </div>
       </section>
 
-      {m.isPending && (
+      {m.isFetching && (
         <div className="py-12"><FoodLoader label={`Finding tasty ideas with ${ingredient}…`} /></div>
       )}
       {m.isError && <p className="text-center text-destructive">{(m.error as Error).message}</p>}
