@@ -6,6 +6,8 @@ import { ArrowRight, Clock, Flame, Loader2, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { suggestMeals } from "@/lib/food.functions";
+import { FoodLoader } from "@/components/FoodLoader";
+import { MealImage } from "@/components/MealImage";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -74,11 +76,7 @@ function Index() {
       </section>
 
       {m.isPending && (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-44 animate-pulse rounded-2xl bg-muted" />
-          ))}
-        </div>
+        <div className="py-12"><FoodLoader label={`Finding tasty ideas with ${ingredient}…`} /></div>
       )}
       {m.isError && <p className="text-center text-destructive">{(m.error as Error).message}</p>}
       {m.data && (
@@ -88,9 +86,11 @@ function Index() {
               key={meal.id}
               to="/meal/$mealId"
               params={{ mealId: meal.id }}
-              className="group flex flex-col rounded-2xl border border-border bg-card p-5 transition hover:-translate-y-1 hover:shadow-card"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-1 hover:shadow-card"
             >
-              <span className="font-display text-4xl font-extrabold text-primary/25">0{i + 1}</span>
+              <MealImage mealId={meal.id} alt={meal.name} className="aspect-[4/3] w-full" />
+              <div className="flex flex-1 flex-col p-5">
+              <span className="font-display text-sm font-extrabold text-primary/60">0{i + 1}</span>
               <h3 className="mt-1 text-xl font-bold text-card-foreground">{meal.name}</h3>
               <p className="mt-1 text-xs font-medium uppercase tracking-wide text-accent">{meal.cuisine}</p>
               <p className="mt-2 flex-1 text-sm text-muted-foreground">{meal.description}</p>
@@ -100,6 +100,7 @@ function Index() {
                   <span className="flex items-center gap-1"><Flame className="h-4 w-4" />{meal.difficulty}</span>
                 </span>
                 <ArrowRight className="h-4 w-4 text-primary transition group-hover:translate-x-1" />
+              </div>
               </div>
             </Link>
           ))}
